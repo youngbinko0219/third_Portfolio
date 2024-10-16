@@ -1,38 +1,37 @@
 # main.py
 
-from board_visual import run_visualization  # 시각화 함수
-from player import Player
 from tiles import create_tiles
 from dice import roll_dice
+from player import Player
 from bank import Bank
 from game_utils import display_welcome_message, check_for_quit, check_end_game
 from golden_cards import assign_golden_cards, apply_special_effect
 
-# 보드 초기화
-board = create_tiles()
-board_length = len(board)
-
-# 플레이어와 은행 초기화
-players = [Player(f"플레이어 {i+1}") for i in range(4)]
-bank = Bank()
-
-# 황금카드 설정
-golden_cards = assign_golden_cards(board)
-
 
 def main():
-    # 환영 메시지
+    # 환영 메시지 호출
     display_welcome_message()
 
-    # 초기 보드 시각화
-    run_visualization(players)
+    # 은행, 타일, 플레이어 설정
+    bank = Bank()  # 은행 인스턴스 생성
+    board = create_tiles()  # 도시 타일 생성
+    board_length = len(board)
+    players = [Player(f"플레이어 {i+1}") for i in range(4)]
+
+    # 황금카드 설정
+    golden_cards = assign_golden_cards(board)
+    print("황금카드가 무작위로 지정되었습니다!")
 
     while True:
         for player in players:
-            # 파산한 플레이어를 제거
-            players[:] = [p for p in players if not getattr(p, "is_bankrupt", False)]
+            # 턴 시작 시 파산한 플레이어 제거
+            players = [
+                player
+                for player in players
+                if not getattr(player, "is_bankrupt", False)
+            ]
 
-            # 게임 종료 조건 확인
+            # 게임 종료 여부 확인
             if check_end_game(players):
                 return  # 게임 종료
 
@@ -79,10 +78,10 @@ def main():
 
                 # 효과에 따라 위치 이동을 반영
                 if action == "move_backward":
-                    steps = int(effect.split()[-1])
+                    steps = int(effect.split()[-1])  # 예: '뒤로 6칸 이동' -> 6
                     player.move(-steps, board_length)
                 elif action == "move_forward":
-                    steps = int(effect.split()[-1])
+                    steps = int(effect.split()[-1])  # 예: '앞으로 3칸 이동' -> 3
                     player.move(steps, board_length)
                 elif action == "reroll":
                     steps = roll_dice()
@@ -90,9 +89,10 @@ def main():
                     print(
                         f"{player.name}님이 주사위를 다시 굴려 {steps} 칸 이동합니다."
                     )
+                # 추가 턴 확인
                 elif action == "extra_turn":
                     print(f"{player.name}님은 추가 턴을 획득했습니다!")
-                    continue
+                    continue  # 추가 턴을 줌
 
                 # 이동 후 새로운 위치 정보 업데이트
                 current_tile = board[player.position]
@@ -126,8 +126,17 @@ def main():
                             f"{current_tile.name}에는 더 이상 건물을 지을 수 없습니다."
                         )
 
-            # 보드 시각화 업데이트
-            run_visualization(players)
+                        # 부동산 판매 선택
+                        if current_tile.owner == player:
+                            user_input = (
+                                input(
+                                    f"{player.name}님, '{current_tile.name}'을 은행에 판매하시겠습니까? (예/아니오): "
+                                )
+                                .strip()
+                                .lower()
+                            )
+                            if user_input == "예":
+                                player.sell_property_to_bank(current_tile, bank)
 
 
 if __name__ == "__main__":
