@@ -23,7 +23,7 @@ Python 기반의 인터랙티브 보드 게임으로, 플레이어는 다양한 
 1. 리포지토리 클론:
 
    ```bash
-   git clone https://github.com/username/adventure-board-game.git
+   git clone https://github.com/youngbinko0219/third_Portfolio.git
    cd adventure-board-game
    ```
 
