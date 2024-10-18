@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adventure Board Game</title>
+    <!-- CSS 파일 링크 -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <!-- jQuery 라이브러리 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Adventure Board Game</h1>
+    <div id="game-board">
+      <p>주사위를 굴려 플레이어를 이동시켜 보세요!</p>
+      <label for="player-select">플레이어 선택:</label>
+      <select id="player-select">
+        <option value="0">플레이어 1</option>
+        <option value="1">플레이어 2</option>
+        <option value="2">플레이어 3</option>
+        <option value="3">플레이어 4</option>
+      </select>
+      <button id="roll-dice-button">주사위 굴리기</button>
+      <!-- 주사위 결과를 표시할 요소 -->
+      <div id="dice-result" class="dice">🎲</div>
+      <div id="player-info" class="player-info"></div>
+      <div class="actions" style="display: none">
+        <button id="buy-property-button">땅 구매</button>
+        <button id="build-property-button">건물 건설</button>
+        <button id="sell-property-button">땅 판매</button>
+      </div>
+    </div>
+
+    <!-- 보드 게임판 -->
+    <div id="board"></div>
+
+    <!-- JS 파일 링크 -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

@@ -86,9 +86,18 @@ def main():
                 elif action == "reroll":
                     steps = roll_dice()
                     player.move(steps, board_length)
-                    print(
-                        f"{player.name}님이 주사위를 다시 굴려 {steps} 칸 이동합니다."
-                    )
+                    print(f"{player.name}님이 주사위를 다시 굴려 {steps} 칸 이동합니다.")
+                elif action == "extra_turn":
+                    print(f"{player.name}님은 추가 턴을 획득했습니다!")
+                    continue  # 추가 턴을 줌
+
+                # 이동 후 새로운 위치 정보 업데이트
+                current_tile = board[player.position]
+                print(f"{player.name}님이 '{current_tile.name}'로 이동했습니다.")
+
+                # 황금카드 효과 적용 후 통행료 지불 여부 확인
+                if current_tile.owner and current_tile.owner != player:
+                    player.pay_toll(current_tile)
                 # 추가 턴 확인
                 elif action == "extra_turn":
                     print(f"{player.name}님은 추가 턴을 획득했습니다!")

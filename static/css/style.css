@@ -1,0 +1,84 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 20px;
+}
+
+#game-board {
+  margin-top: 20px;
+}
+
+.player-info,
+.actions {
+  margin-top: 10px;
+}
+
+/* 부루마블 스타일 보드 */
+#board {
+  display: grid;
+  grid-template-columns: repeat(10, 80px); /* 6x6 그리드 */
+  grid-template-rows: repeat(10, 80px);
+  gap: 5px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.empty {
+  background-color: transparent;
+  border: none;
+}
+
+.player {
+  font-weight: bold;
+  color: #f00;
+}
+
+.owned {
+  background-color: #cce5ff;
+}
+
+.player-piece {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin: auto;
+}
+
+.dice {
+  font-size: 40px;
+  margin: 20px auto;
+}
+
+.rolling {
+  animation: roll 0.5s infinite;
+}
+
+@keyframes roll {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
